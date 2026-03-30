@@ -9,6 +9,11 @@ ACCBaseCharacter::ACCBaseCharacter()
 	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
 }
 
+UAbilitySystemComponent* ACCBaseCharacter::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}
+
 void ACCBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();

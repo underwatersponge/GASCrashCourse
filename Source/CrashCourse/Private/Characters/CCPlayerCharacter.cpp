@@ -5,6 +5,9 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+#include "AbilitySystemComponent.h"
+
+#include "CrashCourse/Public/Player/CCPlayerState.h"
 ACCPlayerCharacter::ACCPlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -33,4 +36,33 @@ ACCPlayerCharacter::ACCPlayerCharacter()
 	FallowCamera = CreateDefaultSubobject<UCameraComponent>("FallowCamera");
 	FallowCamera->SetupAttachment(CameraBoom);
 	FallowCamera->bUsePawnControlRotation = false;
+}
+
+UAbilitySystemComponent* ACCPlayerCharacter::GetAbilitySystemComponent() const
+{
+	ACCPlayerState* playerState = Cast<ACCPlayerState>(GetPlayerState());
+	if (!IsValid(playerState))
+		return nullptr;
+
+	return playerState->GetAbilitySystemComponent();
+}
+
+void ACCPlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!IsValid(GetAbilitySystemComponent()))
+		return;
+
+	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+}
+
+void ACCPlayerCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	if (!IsValid(GetAbilitySystemComponent()))
+		return;
+
+	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 }
