@@ -1,0 +1,12 @@
+.vs/
+*.vsconfig
+*.sln
+*.uproject
+
+Binaries/
+Config/
+Intermediate/
+Saved/
+
+# for smoller storage
+Content/
