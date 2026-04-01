@@ -9,11 +9,13 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+struct FGameplayTag;
 
 UCLASS()
 class CRASHCOURSE_API ACCPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
 protected:
 	virtual void SetupInputComponent() override;
 
@@ -23,6 +25,8 @@ private:
 	void Look(const FInputActionValue& InputValue);
 	void Move(const FInputActionValue& InputValue);
 	void Primary();
+
+	void ActivateAbility(const FGameplayTag& tag) const;
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Crash|Input")
 	TArray<TObjectPtr<UInputMappingContext>> InputMappingContexts;

@@ -8,6 +8,8 @@
 
 #include "CCBaseCharacter.generated.h"
 
+class UGameplayAbility;
+
 UCLASS(Abstract)
 class CRASHCOURSE_API ACCBaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -17,6 +19,12 @@ public:
 	ACCBaseCharacter();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	void GiveStartupAbilities() const;
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "Crash|Ability")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };

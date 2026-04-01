@@ -3,6 +3,11 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
+#include "GameplayTagContainer.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+
+#include "CrashCourse/Public/GameplayTagss/CCTags.h"
 
 void ACCPlayerController::SetupInputComponent()
 {
@@ -65,4 +70,15 @@ void ACCPlayerController::Move(const FInputActionValue& InputValue)
 void ACCPlayerController::Primary()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Primary"));
+	ActivateAbility(CCTags::CCAbilities::Primary);
+}
+
+void ACCPlayerController::ActivateAbility(const FGameplayTag& tag) const
+{
+	 FGameplayTagContainer tagContainer = tag.GetSingleTagContainer();
+	
+	 UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
+	 if (!IsValid(ASC))
+		 return;
+	 ASC->TryActivateAbilitiesByTag(tagContainer);
 }

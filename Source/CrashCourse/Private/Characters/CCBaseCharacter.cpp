@@ -2,6 +2,7 @@
 
 
 #include "Characters/CCBaseCharacter.h"
+#include "AbilitySystemComponent.h"
 
 ACCBaseCharacter::ACCBaseCharacter()
 {
@@ -12,6 +13,16 @@ ACCBaseCharacter::ACCBaseCharacter()
 UAbilitySystemComponent* ACCBaseCharacter::GetAbilitySystemComponent() const
 {
 	return nullptr;
+}
+
+void ACCBaseCharacter::GiveStartupAbilities() const
+{
+	for (auto& ability : StartupAbilities)
+	{
+		UAbilitySystemComponent* ASC = GetAbilitySystemComponent();
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(ability);
+		ASC->GiveAbility(AbilitySpec);
+	}
 }
 
 void ACCBaseCharacter::BeginPlay()
