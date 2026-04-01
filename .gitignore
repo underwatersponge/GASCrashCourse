@@ -1,7 +1,11 @@
+# vs
 .vs/
 *.vsconfig
 *.sln
 *.uproject
+
+# rider
+.idea/
 
 Binaries/
 Config/

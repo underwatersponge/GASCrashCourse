@@ -31,7 +31,9 @@ void ACCPlayerController::SetupInputComponent()
 	enhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
 	enhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
 	
-	enhancedInputComponent->BindAction(PrimaryAbility, ETriggerEvent::Triggered, this, &ThisClass::Primary);
+	enhancedInputComponent->BindAction(PrimaryAbility, ETriggerEvent::Started, this, &ThisClass::Primary);
+	enhancedInputComponent->BindAction(SecondAbility, ETriggerEvent::Started, this, &ThisClass::Secondary);
+	enhancedInputComponent->BindAction(ThirdAbility, ETriggerEvent::Started, this, &ThisClass::Thirdary);
 }
 
 void ACCPlayerController::Jump()
@@ -71,6 +73,16 @@ void ACCPlayerController::Primary()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Primary"));
 	ActivateAbility(CCTags::CCAbilities::Primary);
+}
+
+void ACCPlayerController::Secondary()
+{
+	ActivateAbility(CCTags::CCAbilities::SecondAbility);
+}
+
+void ACCPlayerController::Thirdary()
+{
+	ActivateAbility(CCTags::CCAbilities::ThirdAbility);
 }
 
 void ACCPlayerController::ActivateAbility(const FGameplayTag& tag) const
