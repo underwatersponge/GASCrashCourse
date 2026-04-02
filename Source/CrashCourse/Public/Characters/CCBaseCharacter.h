@@ -21,7 +21,6 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	void GiveStartupAbilities() const;
-protected:
 	virtual void BeginPlay() override;
 
 private:

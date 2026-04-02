@@ -12,5 +12,15 @@ namespace CCTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(Primary);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(SecondAbility);
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(ThirdAbility);
+		
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(ActiveOnGiveAbility);
+	}
+	
+	namespace Events
+	{
+		namespace Enemy
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);
+		}
 	}
 }

@@ -28,5 +28,4 @@ void ACCBaseCharacter::GiveStartupAbilities() const
 void ACCBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }

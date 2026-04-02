@@ -1,13 +1,10 @@
-
-
-
 #include "Player/CCPlayerState.h"
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/CCAbilitySystemComponent.h"
 
 ACCPlayerState::ACCPlayerState()
 {
 	//SetNetUpdateFrequency(100.0f);
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UCCAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 }
