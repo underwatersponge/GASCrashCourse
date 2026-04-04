@@ -2,11 +2,12 @@
 .vs/
 *.vsconfig
 *.sln
-*.uproject
+*.user
 
 # rider
 .idea/
 
+*.uproject
 Binaries/
 Config/
 Intermediate/
