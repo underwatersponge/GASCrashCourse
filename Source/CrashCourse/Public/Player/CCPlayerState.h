@@ -8,6 +8,7 @@
 
 #include "CCPlayerState.generated.h"
 
+class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS()
@@ -21,4 +22,7 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Crash|Abilities")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

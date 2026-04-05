@@ -8,6 +8,7 @@
 
 #include "CCBaseCharacter.generated.h"
 
+class UGameplayEffect;
 class UGameplayAbility;
 
 UCLASS(Abstract)
@@ -21,9 +22,11 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	void GiveStartupAbilities() const;
-	virtual void BeginPlay() override;
-
+	void InitializeAttributes() const;
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Crash|Ability")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Crash|Effects")
+	TSubclassOf<UGameplayEffect> InitializeAttributesEffect;
 };

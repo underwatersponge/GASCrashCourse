@@ -1,6 +1,8 @@
 ﻿#include "Characters/CCEnemyCharacter.h"
 #include "AbilitySystem/CCAbilitySystemComponent.h"
 
+#include "AbilitySystem/CCAttributeSet.h"
+
 ACCEnemyCharacter::ACCEnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -8,7 +10,8 @@ ACCEnemyCharacter::ACCEnemyCharacter()
 	AbilitySystemComponent = CreateDefaultSubobject<UCCAbilitySystemComponent>(FName("AbilitySystemComponent"));
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
-	
+
+	AttributeSet = CreateDefaultSubobject<UCCAttributeSet>(FName("AttributeSet"));
 }
 
 UAbilitySystemComponent* ACCEnemyCharacter::GetAbilitySystemComponent() const
@@ -26,5 +29,6 @@ void ACCEnemyCharacter::BeginPlay()
 	if (!HasAuthority())
 		return;
 	GiveStartupAbilities();
+	InitializeAttributes();
 }
 

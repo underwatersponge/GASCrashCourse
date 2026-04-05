@@ -6,6 +6,8 @@
 #include "CCBaseCharacter.h"
 #include "CCEnemyCharacter.generated.h"
 
+class UAttributeSet;
+
 UCLASS()
 class CRASHCOURSE_API ACCEnemyCharacter : public ACCBaseCharacter
 {
@@ -19,4 +21,7 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Crash|Ability")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

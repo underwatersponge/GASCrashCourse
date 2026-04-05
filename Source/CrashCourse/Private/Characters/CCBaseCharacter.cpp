@@ -25,7 +25,11 @@ void ACCBaseCharacter::GiveStartupAbilities() const
 	}
 }
 
-void ACCBaseCharacter::BeginPlay()
+void ACCBaseCharacter::InitializeAttributes() const
 {
-	Super::BeginPlay();
+	checkf(IsValid(InitializeAttributesEffect), TEXT("InitializeAttributesEffect not set"));
+	
+	FGameplayEffectContextHandle contextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	FGameplayEffectSpecHandle specHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(InitializeAttributesEffect, 1.0f, contextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*specHandle.Data.Get());
 }

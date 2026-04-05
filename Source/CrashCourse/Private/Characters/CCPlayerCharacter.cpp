@@ -56,6 +56,7 @@ void ACCPlayerCharacter::PossessedBy(AController* NewController)
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 	GiveStartupAbilities();
+	InitializeAttributes();
 }
 
 void ACCPlayerCharacter::OnRep_PlayerState()
