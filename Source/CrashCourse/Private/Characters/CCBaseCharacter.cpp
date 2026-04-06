@@ -33,3 +33,8 @@ void ACCBaseCharacter::InitializeAttributes() const
 	FGameplayEffectSpecHandle specHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(InitializeAttributesEffect, 1.0f, contextHandle);
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*specHandle.Data.Get());
 }
+
+UAttributeSet* ACCBaseCharacter::GetAttributeSet() const
+{
+	return nullptr;
+}

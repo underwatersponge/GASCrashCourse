@@ -19,6 +19,11 @@ UAbilitySystemComponent* ACCEnemyCharacter::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+UAttributeSet* ACCEnemyCharacter::GetAttributeSet() const
+{
+	return AttributeSet.Get();
+}
+
 void ACCEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -26,6 +31,8 @@ void ACCEnemyCharacter::BeginPlay()
 	if (!IsValid(GetAbilitySystemComponent()))
 		return;
 	GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
+	DEL_OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
+	
 	if (!HasAuthority())
 		return;
 	GiveStartupAbilities();

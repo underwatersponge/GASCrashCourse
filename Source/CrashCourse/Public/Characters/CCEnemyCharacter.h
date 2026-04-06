@@ -16,8 +16,9 @@ class CRASHCOURSE_API ACCEnemyCharacter : public ACCBaseCharacter
 public:
 	ACCEnemyCharacter();
 	
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void BeginPlay() override;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAttributeSet* GetAttributeSet() const override;
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Crash|Ability")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

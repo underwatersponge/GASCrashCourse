@@ -1,4 +1,5 @@
 ﻿// 
+// 
 
 #include "AbilitySystem/CCAttributeSet.h"
 
@@ -12,6 +13,18 @@ void UCCAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, Mana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, MaxMana, COND_None, REPNOTIFY_Always);
+}
+
+void UCCAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+	
+	if (!bAttributeInitialized)
+	{
+		bAttributeInitialized = true;
+		
+		DEL_AttributeInitialized.Broadcast();
+	}
 }
 
 void UCCAttributeSet::OnRep_Health(const FGameplayAttributeData& oldValue)
@@ -32,4 +45,12 @@ void UCCAttributeSet::OnRep_Mana(const FGameplayAttributeData& oldValue)
 void UCCAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& oldValue)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(ThisClass, MaxMana, oldValue);
+}
+
+void UCCAttributeSet::OnRep_AttributeInitialized()
+{
+	if (bAttributeInitialized)
+	{
+		DEL_AttributeInitialized.Broadcast();
+	}
 }

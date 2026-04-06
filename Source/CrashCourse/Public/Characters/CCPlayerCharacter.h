@@ -6,6 +6,7 @@
 #include "Characters/CCBaseCharacter.h"
 #include "CCPlayerCharacter.generated.h"
 
+class UAttributeSet;
 class UCameraComponent;
 class USpringArmComponent;
 
@@ -20,6 +21,8 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+	
+	virtual UAttributeSet* GetAttributeSet() const override;
 private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Camera")

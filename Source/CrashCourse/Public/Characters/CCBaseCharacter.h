@@ -11,6 +11,8 @@
 class UGameplayEffect;
 class UGameplayAbility;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FASCInitialized, UAbilitySystemComponent*, ASC, UAttributeSet*, AS);
+
 UCLASS(Abstract)
 class CRASHCOURSE_API ACCBaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -23,6 +25,12 @@ public:
 
 	void GiveStartupAbilities() const;
 	void InitializeAttributes() const;
+	
+	virtual UAttributeSet* GetAttributeSet() const;
+	
+public:
+	UPROPERTY(BlueprintAssignable)
+	FASCInitialized DEL_OnASCInitialized;;
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Crash|Ability")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

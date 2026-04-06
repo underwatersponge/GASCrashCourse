@@ -4,10 +4,11 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
 #include "AbilitySystemComponent.h"
 
 #include "CrashCourse/Public/Player/CCPlayerState.h"
+#include "Player/CCPlayerState.h"
+
 ACCPlayerCharacter::ACCPlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -55,6 +56,7 @@ void ACCPlayerCharacter::PossessedBy(AController* NewController)
 		return;
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+	DEL_OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	GiveStartupAbilities();
 	InitializeAttributes();
 }
@@ -67,5 +69,10 @@ void ACCPlayerCharacter::OnRep_PlayerState()
 		return;
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
-	GiveStartupAbilities();
+	DEL_OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
+}
+
+UAttributeSet* ACCPlayerCharacter::GetAttributeSet() const
+{
+	return Cast<ACCPlayerState>(GetPlayerState())->GetAttributeSet();
 }
