@@ -8,6 +8,7 @@
 
 #include "CrashCourse/Public/Player/CCPlayerState.h"
 #include "Player/CCPlayerState.h"
+#include "AbilitySystem/CCAttributeSet.h"
 
 ACCPlayerCharacter::ACCPlayerCharacter()
 {
@@ -59,6 +60,11 @@ void ACCPlayerCharacter::PossessedBy(AController* NewController)
 	DEL_OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	GiveStartupAbilities();
 	InitializeAttributes();
+	
+	UCCAttributeSet* CC_AttributeSet = Cast<UCCAttributeSet>(GetAttributeSet());
+	if (IsValid(CC_AttributeSet))
+		return;
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(CC_AttributeSet->GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 
 void ACCPlayerCharacter::OnRep_PlayerState()
@@ -70,6 +76,11 @@ void ACCPlayerCharacter::OnRep_PlayerState()
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 	DEL_OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
+
+	UCCAttributeSet* CC_AttributeSet = Cast<UCCAttributeSet>(GetAttributeSet());
+	if (IsValid(CC_AttributeSet))
+		return;
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(CC_AttributeSet->GetHealthAttribute()).AddUObject(this, &ACCPlayerCharacter::OnHealthChanged);
 }
 
 UAttributeSet* ACCPlayerCharacter::GetAttributeSet() const

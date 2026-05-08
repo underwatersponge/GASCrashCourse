@@ -21,7 +21,7 @@ UAbilitySystemComponent* ACCEnemyCharacter::GetAbilitySystemComponent() const
 
 UAttributeSet* ACCEnemyCharacter::GetAttributeSet() const
 {
-	return AttributeSet.Get();
+	return AttributeSet;
 }
 
 void ACCEnemyCharacter::BeginPlay()
@@ -37,5 +37,10 @@ void ACCEnemyCharacter::BeginPlay()
 		return;
 	GiveStartupAbilities();
 	InitializeAttributes();
+	
+	UCCAttributeSet* CC_AttributeSet = Cast<UCCAttributeSet>(GetAttributeSet());
+	if(IsValid(CC_AttributeSet))
+		return;
+	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(CC_AttributeSet->GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
 }
 

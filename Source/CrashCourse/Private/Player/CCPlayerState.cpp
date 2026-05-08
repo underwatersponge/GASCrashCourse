@@ -20,5 +20,5 @@ UAbilitySystemComponent* ACCPlayerState::GetAbilitySystemComponent() const
 
 UAttributeSet* ACCPlayerState::GetAttributeSet() const
 {
-	return AttributeSet.Get();
+	return AttributeSet;
 }

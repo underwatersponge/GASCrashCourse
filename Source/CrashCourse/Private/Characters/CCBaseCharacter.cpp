@@ -1,8 +1,6 @@
-
-
-
 #include "Characters/CCBaseCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "Net/UnrealNetwork.h"
 
 ACCBaseCharacter::ACCBaseCharacter()
 {
@@ -13,6 +11,12 @@ ACCBaseCharacter::ACCBaseCharacter()
 UAbilitySystemComponent* ACCBaseCharacter::GetAbilitySystemComponent() const
 {
 	return nullptr;
+}
+
+void ACCBaseCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ThisClass, bAlivate);
 }
 
 void ACCBaseCharacter::GiveStartupAbilities() const
@@ -37,4 +41,22 @@ void ACCBaseCharacter::InitializeAttributes() const
 UAttributeSet* ACCBaseCharacter::GetAttributeSet() const
 {
 	return nullptr;
+}
+
+void ACCBaseCharacter::OnHealthChanged(const FOnAttributeChangeData& AttributeChangeData)
+{
+	if (AttributeChangeData.NewValue < 0.f)
+		HandleDeath();
+}
+
+void ACCBaseCharacter::HandleDeath()
+{
+	if (IsValid(GEngine))
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("%s is Died!"), *GetName()));
+	bAlivate = false;
+}
+
+void ACCBaseCharacter::HandReSpawn()
+{
+	bAlivate = true;
 }
