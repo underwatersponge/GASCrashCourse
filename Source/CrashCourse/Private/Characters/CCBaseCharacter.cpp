@@ -38,6 +38,15 @@ void ACCBaseCharacter::InitializeAttributes() const
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*specHandle.Data.Get());
 }
 
+void ACCBaseCharacter::ResetAttributes() const
+{
+	checkf(IsValid(ResetAttributesEffect), TEXT("ResetAttributesEffect not set"));
+	
+	FGameplayEffectContextHandle contextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	FGameplayEffectSpecHandle effectHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(ResetAttributesEffect, 1.0f, contextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*effectHandle.Data.Get());	
+}
+
 UAttributeSet* ACCBaseCharacter::GetAttributeSet() const
 {
 	return nullptr;

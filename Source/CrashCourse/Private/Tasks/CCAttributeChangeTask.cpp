@@ -2,7 +2,6 @@
 #include "Tasks/CCAttributeChangeTask.h"
 #include "AbilitySystemComponent.h"
 
-
 UCCAttributeChangeTask* UCCAttributeChangeTask::ListenForAttributeChange(UAbilitySystemComponent* AbilitySystemComponent, FGameplayAttribute Attribute)
 {
 	UCCAttributeChangeTask* Task = NewObject<UCCAttributeChangeTask>();

@@ -13,7 +13,7 @@ class UAbilitySystemComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnAttributeChange, FGameplayAttribute, Attribute, float, NewValue, float, OldValue);
 
-UCLASS()
+UCLASS(BlueprintType, meta=(ExposedAsyncProxy=AsyncTask))
 class CRASHCOURSE_API UCCAttributeChangeTask : public UBlueprintAsyncActionBase
 {
 	GENERATED_BODY()

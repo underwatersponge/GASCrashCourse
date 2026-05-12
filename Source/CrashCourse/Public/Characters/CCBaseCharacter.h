@@ -27,6 +27,9 @@ public:
 	void GiveStartupAbilities() const;
 	void InitializeAttributes() const;
 	
+	UFUNCTION(BlueprintCallable, Category = "Crash|Effects")
+	void ResetAttributes() const;
+	
 	virtual UAttributeSet* GetAttributeSet() const;
 	
 	bool IsAlivate() const {return bAlivate;}
@@ -47,6 +50,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Crash|Effects")
 	TSubclassOf<UGameplayEffect> InitializeAttributesEffect;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Crash|Effects")
+	TSubclassOf<UGameplayEffect> ResetAttributesEffect;
+	
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess=true), Replicated)
 	bool bAlivate = true;;
 };
