@@ -2,6 +2,11 @@
 #include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
 
+namespace CrashTags
+{
+	const CRASHCOURSE_API FName Player = "Player";
+}
+
 ACCBaseCharacter::ACCBaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;

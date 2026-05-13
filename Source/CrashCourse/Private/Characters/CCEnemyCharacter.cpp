@@ -1,6 +1,7 @@
 ﻿#include "Characters/CCEnemyCharacter.h"
-#include "AbilitySystem/CCAbilitySystemComponent.h"
 
+#include "AbilitySystem/CCAbilitySystemComponent.h"
+#include "AIController.h"
 #include "AbilitySystem/CCAttributeSet.h"
 
 ACCEnemyCharacter::ACCEnemyCharacter()
@@ -22,6 +23,15 @@ UAbilitySystemComponent* ACCEnemyCharacter::GetAbilitySystemComponent() const
 UAttributeSet* ACCEnemyCharacter::GetAttributeSet() const
 {
 	return AttributeSet;
+}
+
+void ACCEnemyCharacter::HandleDeath()
+{
+	Super::HandleDeath();
+	
+	AAIController* aiController = Cast<AAIController>(GetController());
+	if (!IsValid(aiController)) return;
+	aiController->StopMovement();
 }
 
 void ACCEnemyCharacter::BeginPlay()

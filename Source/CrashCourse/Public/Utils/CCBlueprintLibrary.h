@@ -15,6 +15,18 @@ enum class EHitDirection : uint8
 	Back
 };
 
+USTRUCT(BlueprintType) 
+struct FClosestCharacterInfo
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(BlueprintReadWrite)
+	TWeakObjectPtr<class AActor> Character = nullptr;
+	
+	UPROPERTY(BlueprintReadWrite)
+	float Distance = 0.f;
+};
+
 UCLASS()
 class CRASHCOURSE_API UCCBlueprintLibrary : public UBlueprintFunctionLibrary
 {
@@ -26,4 +38,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
 	static FName GetDirectionName(const EHitDirection direction);
+	
+	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
+	static FClosestCharacterInfo SearchClosestCharacter(const UObject* worldContextObject, const FVector& origin, const FName& tag);
 };

@@ -38,6 +38,8 @@ ACCPlayerCharacter::ACCPlayerCharacter()
 	FallowCamera = CreateDefaultSubobject<UCameraComponent>("FallowCamera");
 	FallowCamera->SetupAttachment(CameraBoom);
 	FallowCamera->bUsePawnControlRotation = false;
+	
+	Tags.Add(CrashTags::Player);
 }
 
 UAbilitySystemComponent* ACCPlayerCharacter::GetAbilitySystemComponent() const

@@ -14,6 +14,12 @@ class UGameplayAbility;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FASCInitialized, UAbilitySystemComponent*, ASC, UAttributeSet*, AS);
 
+
+namespace CrashTags
+{
+	extern const CRASHCOURSE_API FName Player;
+}
+
 UCLASS(Abstract)
 class CRASHCOURSE_API ACCBaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -37,8 +43,10 @@ public:
 	
 protected:
 	void OnHealthChanged(const FOnAttributeChangeData& AttributeChangeData);
-	void HandleDeath();
-	void HandReSpawn();
+	virtual void HandleDeath();
+	
+	UFUNCTION(BlueprintCallable, Category = "Crash|Death")
+	virtual void HandReSpawn();
 	
 public:
 	UPROPERTY(BlueprintAssignable)

@@ -3,6 +3,9 @@
 
 #include "Utils/CCBlueprintLibrary.h"
 
+#include "Characters/CCBaseCharacter.h"
+#include "Kismet/GameplayStatics.h"
+
 EHitDirection UCCBlueprintLibrary::GetHitDirection(const FVector& targetForward, const FVector& toInstigator)
 {
 	float dot = FVector::DotProduct(targetForward, toInstigator);
@@ -34,4 +37,35 @@ FName UCCBlueprintLibrary::GetDirectionName(const EHitDirection direction)
 	default:
 		return FName("Unknow");
 	}
+}
+
+FClosestCharacterInfo UCCBlueprintLibrary::SearchClosestCharacter(const UObject* worldContextObject, const FVector& origin,
+	const FName& tag)
+{
+	TArray<AActor*> searchActors;
+	UGameplayStatics::GetAllActorsWithTag(worldContextObject, tag, searchActors);
+	
+	float closestDist = TNumericLimits<float>::Max();
+	AActor* closestBaseCharacter = nullptr;
+	for (AActor* actor: searchActors)
+	{
+		if (IsValid(actor))
+		{
+			ACCBaseCharacter* character = Cast<ACCBaseCharacter>(actor);		
+			if (IsValid(character) && character->IsAlivate())
+			{
+				float dist = FVector::Dist(actor->GetActorLocation(), origin);
+				if (dist < closestDist)
+				{
+					closestDist = dist;
+					closestBaseCharacter = actor;
+				}
+			}
+		}
+	}
+	
+	FClosestCharacterInfo result;
+	result.Character = closestBaseCharacter;
+	result.Distance = closestDist;
+	return result;
 }
