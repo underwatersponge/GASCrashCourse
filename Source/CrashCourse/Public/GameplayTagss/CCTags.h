@@ -14,6 +14,10 @@ namespace CCTags
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(ThirdAbility);
 		
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(ActiveOnGiveAbility);
+		namespace Enemy
+		{
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attack);
+		}
 	}
 	
 	namespace Events
@@ -22,6 +26,7 @@ namespace CCTags
 		namespace Enemy
 		{
 			UE_DECLARE_GAMEPLAY_TAG_EXTERN(HitReact);
+			UE_DECLARE_GAMEPLAY_TAG_EXTERN(EndAttack);
 		}
 	}
 }

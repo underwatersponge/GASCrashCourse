@@ -38,9 +38,11 @@ public:
 	
 	virtual UAttributeSet* GetAttributeSet() const;
 	
+	UFUNCTION(BlueprintImplementableEvent)
+	void RotateToTarget(AActor* TargetActor);
+	
 	bool IsAlivate() const {return bAlivate;}
 	void SetAlivate(bool bAlivateStatus){bAlivate = bAlivateStatus;}
-	
 protected:
 	void OnHealthChanged(const FOnAttributeChangeData& AttributeChangeData);
 	virtual void HandleDeath();

@@ -12,6 +12,10 @@ namespace CCTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(ThirdAbility, "CCTags.CCAbilities.ThirdAbility", "nothing need to be know");
 		
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(ActiveOnGiveAbility, "CCTags.CCAbilities.ActiveOnGiveAbility", "tag for ability activate on give");
+		namespace Enemy
+		{
+			UE_DEFINE_GAMEPLAY_TAG(Attack, "CCTags.CCAbilities.Enemy.Attack");
+		}
 	}
 	namespace Events
 	{
@@ -19,6 +23,7 @@ namespace CCTags
 		namespace Enemy
 		{
 			UE_DEFINE_GAMEPLAY_TAG(HitReact, "CCTags.Events.HitReact");
+			UE_DEFINE_GAMEPLAY_TAG(EndAttack, "CCTags.Events.Enemy.EndAttack");
 		}
 	}
 }
