@@ -5,6 +5,10 @@
 
 namespace CCTags
 {
+	namespace SetByCaller
+	{
+		UE_DEFINE_GAMEPLAY_TAG(Projectile, "CCTags.SetByCaller.Projectile");
+	}
 	namespace CCAbilities
 	{
 		UE_DEFINE_GAMEPLAY_TAG(Primary, "CCTags.CCAbilities.Primary");
