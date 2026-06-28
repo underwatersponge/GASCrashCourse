@@ -6,6 +6,8 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CCBlueprintLibrary.generated.h"
 
+struct FGameplayEventData;
+struct FGameplayTag;
 class UGameplayEffect;
 
 UENUM(BlueprintType)
@@ -47,4 +49,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
 	static void SendDamageEventToPlayer(AActor* target, const TSubclassOf<UGameplayEffect>& damageEffect,
 		UPARAM(ref) FGameplayEventData& payload, const FGameplayTag& damageTag, float damage, UObject* optionalParticleSystem = nullptr);
+	
+	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
+	static TArray<AActor*> HitBoxOverlayTest(AActor* avatarActor, float hitBoxRadius = 1000.f,
+		float forwardOffset=0.f,float hitBoxElevationOffset=0.f, bool bShowDebug = false);
+	
+	static void DrawHitBoxOverlapDebug( AActor* avatarActor, const TArray<FOverlapResult> & overlayResults,const FVector& hitBoxLocation, float hitBoxRadius,
+	float hitBoxElevationOffset);
+	
+	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
+	static TArray<AActor*> ApplyKnockback(AActor* avatarActor, const TArray<AActor*>& knockbackActors, 
+				float innerRadius, float outerRadius, float launchForceMagnitude, float rotationAngle, bool bDrawDebug = false);
 };

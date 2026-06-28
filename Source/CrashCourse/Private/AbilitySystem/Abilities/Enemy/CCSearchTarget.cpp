@@ -57,7 +57,7 @@ void UCCSearchTarget::StartSearch()
 
 void UCCSearchTarget::EndAttackEventReceived(FGameplayEventData Payload)
 {
-	if (OwnerCharacter.IsValid())
+	if (OwnerCharacter.IsValid() && !OwnerCharacter->bIsBeingLaunched)
 	{
 		StartSearch();
 	}
