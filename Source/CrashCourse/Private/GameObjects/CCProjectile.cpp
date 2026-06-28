@@ -7,7 +7,9 @@
 #include "Characters/CCBaseCharacter.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "AbilitySystemComponent.h"
+#include "Characters/CCPlayerCharacter.h"
 #include "GameplayTagss/CCTags.h"
+#include "Utils/CCBlueprintLibrary.h"
 
 ACCProjectile::ACCProjectile()
 {
@@ -19,21 +21,21 @@ ACCProjectile::ACCProjectile()
 
 void ACCProjectile::NotifyActorBeginOverlap(AActor* OtherActor)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Overlay"));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Overlay"));
 	Super::NotifyActorBeginOverlap(OtherActor);
 	
-	ACCBaseCharacter* character = Cast<ACCBaseCharacter>(OtherActor);
+	ACCBaseCharacter* character = Cast<ACCPlayerCharacter>(OtherActor);
 	if (!IsValid(character) || !character->IsAlivate())
 		return;
 	
 	UAbilitySystemComponent* ASC = character->GetAbilitySystemComponent();
 	if (!IsValid(ASC) || !HasAuthority())
 		return;
-	FGameplayEffectContextHandle EffectContextHandle = ASC->MakeEffectContext();
-	FGameplayEffectSpecHandle EffectSpecHandle = ASC->MakeOutgoingSpec(DamageEffect, 1.0f, EffectContextHandle);
 	
-	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle, CCTags::SetByCaller::Projectile, Damage);
-	ASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+	FGameplayEventData payload;
+	payload.Instigator = GetOwner();
+	payload.Target = character;
+	UCCBlueprintLibrary::SendDamageEventToPlayer(character, DamageEffect, payload, CCTags::SetByCaller::Projectile, Damage);
 	
 	SpawnImpactEffects();
 	Destroy();

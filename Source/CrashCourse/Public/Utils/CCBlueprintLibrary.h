@@ -6,6 +6,8 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CCBlueprintLibrary.generated.h"
 
+class UGameplayEffect;
+
 UENUM(BlueprintType)
 enum class EHitDirection : uint8
 {
@@ -41,4 +43,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
 	static FClosestCharacterInfo SearchClosestCharacter(const UObject* worldContextObject, const FVector& origin, const FName& tag);
+	
+	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
+	static void SendDamageEventToPlayer(AActor* target, const TSubclassOf<UGameplayEffect>& damageEffect,
+		const FGameplayEventData& payload, const FGameplayTag& damageTag, float damage);
 };

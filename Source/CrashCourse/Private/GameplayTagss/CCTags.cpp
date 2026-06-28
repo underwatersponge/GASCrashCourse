@@ -24,10 +24,16 @@ namespace CCTags
 	namespace Events
 	{
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(KillScored, "CCTags.Events.KillScored", "tag for kill scored");
+		namespace Player
+		{
+			UE_DEFINE_GAMEPLAY_TAG(Death, "CCTags.Events.Player.Death");
+			UE_DEFINE_GAMEPLAY_TAG(HitReact, "CCTags.Events.Player.HitReact");
+		}
 		namespace Enemy
 		{
 			UE_DEFINE_GAMEPLAY_TAG(HitReact, "CCTags.Events.HitReact");
 			UE_DEFINE_GAMEPLAY_TAG(EndAttack, "CCTags.Events.Enemy.EndAttack");
+			UE_DEFINE_GAMEPLAY_TAG(MeleeTraceHit, "CCTags.Events.Enemy.MeleeTraceHit");
 		}
 	}
 }
