@@ -6,6 +6,7 @@
 #include "GameplayTagContainer.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Characters/CCPlayerCharacter.h"
 
 #include "CrashCourse/Public/GameplayTagss/CCTags.h"
 
@@ -40,6 +41,8 @@ void ACCPlayerController::Jump()
 {
 	if (!IsValid(GetCharacter()))
 		return;
+	if (!IsAlivate()) 
+		return;
 	GetCharacter()->Jump();
 }
 
@@ -60,6 +63,9 @@ void ACCPlayerController::Look(const FInputActionValue& InputValue)
 
 void ACCPlayerController::Move(const FInputActionValue& InputValue)
 {
+	if (!IsAlivate())
+		return;
+	
 	const FVector2D moveVector = InputValue.Get<FVector2D>();
 	const FRotator yawRotation = FRotator(0.f, GetControlRotation().Yaw, 0.f);
 	const FVector forwardDirection = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
@@ -71,17 +77,23 @@ void ACCPlayerController::Move(const FInputActionValue& InputValue)
 
 void ACCPlayerController::Primary()
 {
+	if (!IsAlivate())
+		return;
 	UE_LOG(LogTemp, Warning, TEXT("Primary"));
 	ActivateAbility(CCTags::CCAbilities::Primary);
 }
 
 void ACCPlayerController::Secondary()
 {
+	if (!IsAlivate())
+		return;
 	ActivateAbility(CCTags::CCAbilities::SecondAbility);
 }
 
 void ACCPlayerController::Thirdary()
 {
+	if (!IsAlivate())
+		return;
 	ActivateAbility(CCTags::CCAbilities::ThirdAbility);
 }
 
@@ -93,4 +105,13 @@ void ACCPlayerController::ActivateAbility(const FGameplayTag& tag) const
 	 if (!IsValid(ASC))
 		 return;
 	 ASC->TryActivateAbilitiesByTag(tagContainer);
+}
+
+bool ACCPlayerController::IsAlivate() const
+{
+	ACCBaseCharacter* character = Cast<ACCBaseCharacter>(GetCharacter());
+	if (!IsValid(character)) 
+		return false;
+	
+	return character->IsAlivate();	
 }

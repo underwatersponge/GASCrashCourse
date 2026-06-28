@@ -46,5 +46,5 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
 	static void SendDamageEventToPlayer(AActor* target, const TSubclassOf<UGameplayEffect>& damageEffect,
-		const FGameplayEventData& payload, const FGameplayTag& damageTag, float damage);
+		UPARAM(ref) FGameplayEventData& payload, const FGameplayTag& damageTag, float damage, UObject* optionalParticleSystem = nullptr);
 };

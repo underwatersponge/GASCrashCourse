@@ -76,7 +76,8 @@ FClosestCharacterInfo UCCBlueprintLibrary::SearchClosestCharacter(const UObject*
 }
 
 void UCCBlueprintLibrary::SendDamageEventToPlayer(AActor* target, const TSubclassOf<UGameplayEffect>& damageEffect,
-	const FGameplayEventData& payload, const FGameplayTag& damageTag, float damage)
+	FGameplayEventData& payload, const FGameplayTag& damageTag, float damage,
+	UObject* optionalParticleSystem)
 {
 	ACCPlayerCharacter* character = Cast<ACCPlayerCharacter>(target);
 	if (!character || !character->IsAlivate()) return ;
@@ -86,6 +87,7 @@ void UCCBlueprintLibrary::SendDamageEventToPlayer(AActor* target, const TSubclas
 	bool bDeath = attributeSet->GetHealth() - damage <= 0.f;
 	const FGameplayTag eventTag = bDeath ? CCTags::Events::Player::Death : CCTags::Events::Player::HitReact;
 	
+	payload.OptionalObject = optionalParticleSystem;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(character, eventTag, payload);
 	
 	UAbilitySystemComponent* ASC = character->GetAbilitySystemComponent();

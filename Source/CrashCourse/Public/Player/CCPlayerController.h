@@ -29,6 +29,8 @@ private:
 	void Thirdary();
 	
 	void ActivateAbility(const FGameplayTag& tag) const;
+	
+	bool IsAlivate()const;
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Crash|Input")
 	TArray<TObjectPtr<UInputMappingContext>> InputMappingContexts;
