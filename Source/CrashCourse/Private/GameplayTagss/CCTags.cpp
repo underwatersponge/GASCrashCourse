@@ -5,6 +5,7 @@
 
 namespace CCTags
 {
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(None, "CCTags.None", "None tag for do nothing")
 	namespace SetByCaller
 	{
 		UE_DEFINE_GAMEPLAY_TAG(Projectile, "CCTags.SetByCaller.Projectile");

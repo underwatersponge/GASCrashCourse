@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagss/CCTags.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CCBlueprintLibrary.generated.h"
 
@@ -44,11 +45,17 @@ public:
 	static FName GetDirectionName(const EHitDirection direction);
 	
 	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
-	static FClosestCharacterInfo SearchClosestCharacter(const UObject* worldContextObject, const FVector& origin, const FName& tag);
+	static FClosestCharacterInfo SearchClosestCharacter(UObject* worldContextObject, const FVector& origin, const FName& tag);
 	
 	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
 	static void SendDamageEventToPlayer(AActor* target, const TSubclassOf<UGameplayEffect>& damageEffect,
-		UPARAM(ref) FGameplayEventData& payload, const FGameplayTag& damageTag, float damage, UObject* optionalParticleSystem = nullptr);
+		UPARAM(ref) FGameplayEventData& payload, const FGameplayTag& damageTag, float damage, const FGameplayTag& eventTagOverride, UObject* optionalParticleSystem = nullptr);
+	
+	
+	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
+	static void SendDamageEventToPlayers(TArray<AActor*> targets, const TSubclassOf<UGameplayEffect>& damageEffect,
+		UPARAM(ref) FGameplayEventData& payload, const FGameplayTag& damageTag, float damage, const FGameplayTag& eventTagOverride, UObject* optionalParticleSystem = nullptr);
+	
 	
 	UFUNCTION(BlueprintCallable, Category = "Crash|Utils")
 	static TArray<AActor*> HitBoxOverlayTest(AActor* avatarActor, float hitBoxRadius = 1000.f,

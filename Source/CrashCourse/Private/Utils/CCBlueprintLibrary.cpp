@@ -47,7 +47,7 @@ FName UCCBlueprintLibrary::GetDirectionName(const EHitDirection direction)
 	}
 }
 
-FClosestCharacterInfo UCCBlueprintLibrary::SearchClosestCharacter(const UObject* worldContextObject, const FVector& origin,
+FClosestCharacterInfo UCCBlueprintLibrary::SearchClosestCharacter(UObject* worldContextObject, const FVector& origin,
 	const FName& tag)
 {
 	TArray<AActor*> searchActors;
@@ -59,14 +59,21 @@ FClosestCharacterInfo UCCBlueprintLibrary::SearchClosestCharacter(const UObject*
 	{
 		if (IsValid(actor))
 		{
-			ACCBaseCharacter* character = Cast<ACCBaseCharacter>(actor);		
+			ACCBaseCharacter* character = Cast<ACCBaseCharacter>(actor);
 			if (IsValid(character) && character->IsAlivate())
 			{
-				float dist = FVector::Dist(actor->GetActorLocation(), origin);
-				if (dist < closestDist)
+				ACCBaseCharacter* baseCharacter = Cast<ACCBaseCharacter>(worldContextObject);
+				if (IsValid(baseCharacter))
 				{
-					closestDist = dist;
-					closestBaseCharacter = actor;
+					
+					float dist = FVector::Dist(actor->GetActorLocation(), origin);
+					if (dist > baseCharacter->SearchRange)
+						continue;
+					if (dist < closestDist)
+					{
+						closestDist = dist;
+						closestBaseCharacter = actor;
+					}
 				}
 			}
 		}
@@ -79,16 +86,25 @@ FClosestCharacterInfo UCCBlueprintLibrary::SearchClosestCharacter(const UObject*
 }
 
 void UCCBlueprintLibrary::SendDamageEventToPlayer(AActor* target, const TSubclassOf<UGameplayEffect>& damageEffect,
-	FGameplayEventData& payload, const FGameplayTag& damageTag, float damage,
+	FGameplayEventData& payload, const FGameplayTag& damageTag, float damage, const FGameplayTag& eventTagOverride,
 	UObject* optionalParticleSystem)
 {
-	ACCPlayerCharacter* character = Cast<ACCPlayerCharacter>(target);
+	ACCBaseCharacter* character = Cast<ACCBaseCharacter>(target);
 	if (!character || !character->IsAlivate()) return ;
 	
-	UCCAttributeSet* attributeSet = Cast<UCCAttributeSet>(character->GetAttributeSet());
-	if (!attributeSet) return;
-	bool bDeath = attributeSet->GetHealth() - damage <= 0.f;
-	const FGameplayTag eventTag = bDeath ? CCTags::Events::Player::Death : CCTags::Events::Player::HitReact;
+	FGameplayTag eventTag;
+	if (!eventTagOverride.MatchesTagExact(CCTags::None))
+	{
+		eventTag = eventTagOverride;
+	}
+	else
+	{
+		UCCAttributeSet* attributeSet = Cast<UCCAttributeSet>(character->GetAttributeSet());
+		if (!attributeSet) return;
+		bool bDeath = attributeSet->GetHealth() - damage <= 0.f;
+		eventTag = bDeath ? CCTags::Events::Player::Death : CCTags::Events::Player::HitReact;
+			
+	}
 	
 	payload.OptionalObject = optionalParticleSystem;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(character, eventTag, payload);
@@ -103,8 +119,18 @@ void UCCBlueprintLibrary::SendDamageEventToPlayer(AActor* target, const TSubclas
 	ASC->ApplyGameplayEffectSpecToSelf(*effectSpec.Data.Get());
 }
 
+void UCCBlueprintLibrary::SendDamageEventToPlayers(TArray<AActor*> targets,
+	const TSubclassOf<UGameplayEffect>& damageEffect, FGameplayEventData& payload, const FGameplayTag& damageTag,
+	float damage, const FGameplayTag& eventTagOverride, UObject* optionalParticleSystem)
+{
+	for (AActor* target : targets)
+	{
+		SendDamageEventToPlayer(target, damageEffect, payload, damageTag, damage, eventTagOverride, optionalParticleSystem);
+	}
+}
+
 TArray<AActor*> UCCBlueprintLibrary::HitBoxOverlayTest(AActor* avatarActor, float hitBoxRadius,
-	float forwardOffset,float hitBoxElevationOffset, bool bShowDebug)
+                                                       float forwardOffset,float hitBoxElevationOffset, bool bShowDebug)
 {
 	TArray<const AActor*> ActorsToIgnore;
 	ActorsToIgnore.Add(avatarActor);

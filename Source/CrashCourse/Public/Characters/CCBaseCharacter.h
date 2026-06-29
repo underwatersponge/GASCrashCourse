@@ -51,6 +51,9 @@ protected:
 	virtual void HandReSpawn();
 	
 public:
+	UPROPERTY(EditAnywhere, Category = "Crash|Attributes")
+	float SearchRange = 1000.0f;
+	
 	UPROPERTY(BlueprintAssignable)
 	FASCInitialized DEL_OnASCInitialized;;
 private:
