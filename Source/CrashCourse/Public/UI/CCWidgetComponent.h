@@ -29,7 +29,7 @@ private:
 	
 	UFUNCTION()
 	void BindToAttributeChanged();
-	
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Crash|Attribute")
 	TMap<FGameplayAttribute, FGameplayAttribute> AttributeMap;

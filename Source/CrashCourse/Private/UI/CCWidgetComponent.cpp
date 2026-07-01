@@ -82,10 +82,11 @@ void UCCWidgetComponent::BindWidgetToAttributeChange(UWidget* widgetObject,
 	if (!attributeWidget->MatchesAttribute(pair))
 		return;
 		
-	attributeWidget->OnAttributeChanged(pair, AttributeSet.Get());// for initial value
+	attributeWidget->AvatarActor = CrashCharacter;
+	attributeWidget->OnAttributeChanged(pair, AttributeSet.Get(), 0.f);// for initial value
 		
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(pair.Key).AddLambda([this, attributeWidget, &pair](const FOnAttributeChangeData&)
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(pair.Key).AddLambda([this, attributeWidget, &pair](const FOnAttributeChangeData& attributeChangeData)
 	{
-		attributeWidget->OnAttributeChanged(pair, AttributeSet.Get());
+		attributeWidget->OnAttributeChanged(pair, AttributeSet.Get(), attributeChangeData.OldValue);
 	});
 }
